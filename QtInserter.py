@@ -29,7 +29,6 @@ class DatabaseListWidget(QtWidgets.QListWidget):
 			if self._itemIcon is not None:
 				listItem.setIcon(QtGui.QIcon(self._itemIcon))
 			listItem.setData(1337, item[0])
-			log.debug("Setting item data(1337) to {}".format(item[0]))
 			self.addItem(listItem)
 
 class StopsListWidget(DatabaseListWidget):
