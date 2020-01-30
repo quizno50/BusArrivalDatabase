@@ -29,6 +29,7 @@ class DatabaseListWidget(QtWidgets.QListWidget):
 			if self._itemIcon is not None:
 				listItem.setIcon(QtGui.QIcon(self._itemIcon))
 			listItem.setData(1337, item[0])
+			log.debug("Setting item data(1337) to {}".format(item[0]))
 			self.addItem(listItem)
 
 class StopsListWidget(DatabaseListWidget):
@@ -138,8 +139,8 @@ class QtArrivalInserter(QtWidgets.QMainWindow):
 
 	def insertCurrentTime(self):
 		Database.insertArrival(self.dbCxn,
-				self.stopsList.currentItem().data(-1),
-				self.routesList.currentItem().data(-1),
+				self.stopsList.currentItem().data(1337),
+				self.routesList.currentItem().data(1337),
 				DateTimeTools.dateAndTimeToDatetime(datetime.date.today(),
 						Parser.parseTime(self.arrivalsList.currentItem().data(0))),
 						datetime.datetime.now())
