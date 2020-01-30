@@ -2,6 +2,7 @@
 import datetime
 import sys
 import logging
+import os.path
 import PySide2.QtWidgets as QtWidgets
 import PySide2.QtCore as QtCore
 import PySide2.QtGui as QtGui
@@ -157,6 +158,8 @@ class QtArrivalInserter(QtWidgets.QMainWindow):
 					datetime.datetime.strptime(newTime, "%Y-%m-%d %H:%M:%S.%f"))
 
 def main():
+	if (os.path.dirname(sys.argv[0]) != ''):
+		os.chdir(os.path.dirname(sys.argv[0]))
 	app = QtWidgets.QApplication(sys.argv)
 	gui = QtArrivalInserter()
 	gui.show()
