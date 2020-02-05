@@ -47,8 +47,8 @@ class StopsListWidget(DatabaseListWidget):
 	def doChange(self, row):
 		item = self.item(row)
 		if self.routesList.currentItem() is not None:
-			self.arrivalsList.refreshListItems(self.routesList.currentItem().data(
-					1337), item.data(1337))
+			self.arrivalsList.refreshListItems(
+					self.routesList.currentItem().data(1337), item.data(1337))
 				
 
 class RoutesListWidget(DatabaseListWidget):
@@ -81,14 +81,22 @@ class ArrivalsListWidget(QtWidgets.QListWidget):
 		cur = self.dbCxn.cursor()
 		res = cur.execute("SELECT * FROM schedule WHERE stop_id = ? "
 				"AND route_id = ? AND valid_from <= datetime() AND "
-				"valid_to >= datetime();",
+				"valid_to >= datetime() ORDER BY arrival_time ASC;",
 				(stop, route))
 		while self.count() > 0:
 			self.takeItem(0)
+		rowToSelect = -1
 		for row in res.fetchall():
+			rowTime = str(row[4]).split(":")
+			rowTime = datetime.time(int(rowTime[0]), int(rowTime[1]),
+					int(rowTime[2]))
 			listItem = QtWidgets.QListWidgetItem(str(row[4]))
 			listItem.setIcon(QtGui.QIcon("alarm-clock_23f0.png"))
 			self.addItem(listItem)
+			if datetime.datetime.now().time() > rowTime:
+				rowToSelect = self.row(listItem)
+		if rowToSelect != -1:
+			self.setCurrentRow(rowToSelect)
 
 class QtArrivalInserter(QtWidgets.QMainWindow):
 	def __init__(self):
