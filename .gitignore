@@ -1,3 +1,6 @@
+# Project Files
+late_busses.db
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
